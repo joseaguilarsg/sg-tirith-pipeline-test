@@ -1,0 +1,33 @@
+# The Terraform job from StackGuardian's Deploy II page (GitHub Actions snippet), plus the checkout, setup and init
+# any real job already has.
+name: terraform
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write   # the result comment
+      checks: write          # the check run
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - run: terraform init -input=false
+      - run: terraform plan -out=tfplan -input=false
+      - uses: StackGuardian/tirith-iac-governance-action@v2.1.1
+        with:
+          plan-file: tfplan
+          workflow-id: tirith-ci-itc8fp
+          fail-on-error: true
+          sg-api-url: https://testapi.qa.stackguardian.io/api/v1
+        env:
+          SG_API_TOKEN: ${{ secrets.SG_API_TOKEN }}
+          SG_ORG: demo-org
+      - run: terraform apply tfplan   # runs only if the check passes
