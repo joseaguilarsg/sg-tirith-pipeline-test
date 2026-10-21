@@ -27,6 +27,9 @@ jobs:
           workflow-id: tirith-ci-itc8fp
           fail-on-error: true
           sg-api-url: https://testapi.qa.stackguardian.io/api/v1
+          sg-dashboard-url: http://localhost:3000
+          # QA has no /stackguardian/tirith-iac-governance; use demo-org's copy, as Akash did on 1 Oct.
+          step-template-id: /demo-org/tirith-iac-governance:3
         env:
           SG_API_TOKEN: ${{ secrets.SG_API_TOKEN }}
           SG_ORG: demo-org
