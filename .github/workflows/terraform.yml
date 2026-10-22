@@ -24,7 +24,7 @@ jobs:
       - uses: StackGuardian/tirith-iac-governance-action@v2.1.1
         with:
           plan-file: tfplan
-          workflow-id: tirith-ci-hnp03m
+          workflow-id: tirith-ci-uqzbkv
           fail-on-error: true
           sg-api-url: https://testapi.qa.stackguardian.io/api/v1
           sg-dashboard-url: http://localhost:3000
